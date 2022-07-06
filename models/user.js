@@ -2,11 +2,14 @@ const Sequelize = require('sequelize').Sequelize;
 const db = require('./index');
 
 const User = db.define('user', {
-    id: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
+      },
+      fullname: {
+        type: Sequelize.STRING(55)
       },
       email: {
         type: Sequelize.STRING(255)
@@ -14,38 +17,29 @@ const User = db.define('user', {
       password: {
         type: Sequelize.STRING(255)
       },
+      status:{
+        type: Sequelize.STRING(10)
+      },
+      roleId: {
+        type: Sequelize.INTEGER
+      }
     }, { paranoid: true });
 
-const Course = db.define('course', {
+const Role = db.define('role', {
   id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    userId: {
-      type: Sequelize.INTEGER
-    },
-    name: {
-      type: Sequelize.STRING(50)
-    },
-    subject: {
-      type: Sequelize.STRING(50)
-    },
-    schoolyear: {
-      type: Sequelize.INTEGER
-    },
-    status: {
+  name: {
       type: Sequelize.STRING
-    },
+  }
   }, { paranoid: true });
 
 
-Course.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-
-User.hasMany(Course, { as: 'course' });
 
 module.exports = {
     User,
-    Course
+    Role
 };

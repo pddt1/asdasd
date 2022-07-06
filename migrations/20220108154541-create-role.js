@@ -2,28 +2,16 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('courses', {
+    return queryInterface.createTable('roles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING(50)
-      },
-      subject: {
-        type: Sequelize.STRING(50)
-      },
-      schoolyear: {
-        type: Sequelize.INTEGER
-      },
-      status: {
+    name: {
         type: Sequelize.STRING
-      },
+    },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -39,6 +27,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('courses');
+    return queryInterface.dropTable('roles');
   }
 };

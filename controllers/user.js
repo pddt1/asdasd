@@ -1,20 +1,49 @@
-const { Log } = require('../models/user');
+const { User } = require('../models/user');
 const { format } = require("date-fns-tz");
 
-module.exports.saveLog = async (req,res) => {
+module.exports.saveUser = async (req,res) => {
     console.log(req.body);
     try {
-        const { data } = req.body;
+        const { name, role, email  } = req.body;
+        
         const {userId} = req;
-        const today = new Date();
-        const currentDate = format(today, 'yyyy-MM-dd hh:mm:ss');
-        const log = await Log.create({
-            userId: userId,
-            data: data,
-            date: currentDate
+        const user = await User.create({
+            fullname: name,
+            email: email,
+            roleId: role,
+            status: 'pending',
+            password: '123456'
         });
-        if (!log) return res.status(401).send({message: 'fail to log'});
-        return res.status(201).send({message: 'log successfully'});
+        if (!saved) return res.status(401).send({message: 'fail to save'});
+        // log.createdAt = log.createdAt.split(' ')[0];
+        let date =""
+        for(let i=1;i<4;i++){
+            date+=saved.createdAt.toString().split(' ')[i]+" "
+        }
+        const log ={
+            userId: userId,
+            name: name,
+            subject: subject,
+            schoolyear: 1,
+            term: term,
+            createdAt: date
+        }
+        // console.log('log.createdAt.toString() :>> ', log.createdAt.toString().split(' ')[0]);
+        return res.status(201).send({message: 'save successfully', log});
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({message: 'server error'});
+    }
+}
+module.exports.fecthUser = async (req,res) => {
+    console.log(req.body);
+    try {
+        const log = await User.findAll({
+            attributes: {exclude: ['password']}
+        });
+        console.log('log', log)
+        if (!log) return res.status(401).send({message: 'fail to save'});
+        return res.status(201).send({log});
     } catch (error) {
         console.error(error);
         return res.status(500).send({message: 'server error'});
