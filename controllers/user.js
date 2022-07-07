@@ -14,19 +14,19 @@ module.exports.saveUser = async (req,res) => {
             status: 'pending',
             password: '123456'
         });
-        if (!saved) return res.status(401).send({message: 'fail to save'});
+        if (!user) return res.status(401).send({message: 'fail to save'});
         // log.createdAt = log.createdAt.split(' ')[0];
         let date =""
         for(let i=1;i<4;i++){
-            date+=saved.createdAt.toString().split(' ')[i]+" "
+            date+=user.createdAt.toString().split(' ')[i]+" "
         }
         const log ={
-            userId: userId,
-            name: name,
-            subject: subject,
-            schoolyear: 1,
-            term: term,
-            createdAt: date
+            id: user.id,
+            fullname: user.fullname,
+            email: user.email,
+            createdAt: date,
+            status: user.status,
+            roleId: user.roleId
         }
         // console.log('log.createdAt.toString() :>> ', log.createdAt.toString().split(' ')[0]);
         return res.status(201).send({message: 'save successfully', log});

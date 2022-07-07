@@ -44,3 +44,12 @@ module.exports.verifyRole = async (req,res,next) => {
         return;
     }    
 }
+
+module.exports.verifyField = (req,res,next) => {
+    const { name, role, email  } = req.body;
+    if (name === '' || role === '' || email === '') {
+        res.status('400').send({message: 'Input field cannot be none'});
+        return;
+    }
+    next();
+}
