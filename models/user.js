@@ -12,7 +12,9 @@ const User = db.define('user', {
         type: Sequelize.STRING(55)
       },
       email: {
-        type: Sequelize.STRING(255)
+        type: Sequelize.STRING(255),
+        unique: true
+
       },
       password: {
         type: Sequelize.STRING(255)
@@ -33,7 +35,9 @@ const Role = db.define('role', {
       type: Sequelize.INTEGER
     },
   name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      unique: true
+
   }
   }, { paranoid: true });
 

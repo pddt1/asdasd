@@ -5,11 +5,11 @@ const bcrypt= require('bcryptjs');
 (async function() {
     try {
         await User.create({
-            id:2,
+            id:3,
             fullname: 'Pham Tien',
-          email: 'tien@gmail.com',
+          email: 'tien123@gmail.com',
           password: bcrypt.hashSync('123456', 16),
-          roleId: 2,
+          roleId: 1,
           status: 'pending',
           createdAt: '2021-05-18',
           updatedAt: '2022-05-18',

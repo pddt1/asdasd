@@ -2,11 +2,14 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/auth.js');
 const { User, Role } = require('../models/user');
 const db = require('../models');
+const TEACHER_ROLE = 1;
+const COURSE_MANAGER_ROLE = 2;
+const ASSISTANT_ROLE = 3;
 
 module.exports.verifyToken = (req,res,next) => {
     let token = req.headers['x-access-token'];
     if (!token) {
-        res.status('403').send({message: 'token not provided'});
+        res.status(401).send({message: 'token not provided'});
         return;
     }
     jwt.verify(token, config.secret, (err, decoded) =>{
@@ -28,13 +31,8 @@ module.exports.verifyRole = async (req,res,next) => {
                 id: userId
             }
         });
-        // const role = await Role.findOne({
-        //     where: {
-        //         id: user.roleId
-        //     },
-        //     attributes: ['name']
-        // });
-        if(user.roleId !== 2) {
+  
+        if(user.roleId !== COURSE_MANAGER_ROLE) {
             res.status('403').send({message: 'access denied'});
             return;
         }

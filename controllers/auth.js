@@ -12,11 +12,14 @@ module.exports.signin = async (req,res) => {
                 email: req.body.email
             },
         });
-        if(!user) return res.status(404).send({message: 'fail to login'});
+        if(!user) return res.status(401).send({message: 'fail to login'});
+        console.log('before: ', new Date());
         const passwordIsValid = bcrypt.compareSync(
             req.body.password,
             user.password
         );
+        console.log('after: ', new Date());
+
         if(!passwordIsValid) return res.status(401).send({message: 'fail to login'});
 
         const token = jwt.sign({ id:user.id }, config.secret, {
