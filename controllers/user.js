@@ -5,7 +5,6 @@ module.exports.saveUser = async (req,res) => {
     console.log(req.body);
     try {
         const { name, role, email  } = req.body;
-        const {userId} = req;
         const user = await User.create({
             fullname: name,
             email: email,
@@ -14,13 +13,12 @@ module.exports.saveUser = async (req,res) => {
             password: bcrypt.hashSync('123456', 16)
         });
         if (!user) return res.status(401).send({message: 'fail to save'});
-        let date= new Date(user.createdAt.getUTCFullYear(), user.createdAt.getUTCMonth(), user.createdAt.getUTCDate());
-        date = format(date, 'dd-MM-yyyy');
+       
         const log ={
             id: user.id,
             fullname: user.fullname,
             email: user.email,
-            createdAt: date,
+            createdAt: user.createdAt,
             status: user.status,
             roleId: user.roleId
         }
@@ -34,15 +32,11 @@ module.exports.saveUser = async (req,res) => {
 module.exports.fecthUser = async (req,res) => {
     console.log(req.body);
     try {
-        let log = await User.findAll({
+        const log = await User.findAll({
             attributes: {exclude: ['password']}
         });
         if (!log) return res.status(401).send({message: 'fail to save'});
-        for( let i =0 ;i< log.length;i++){
-            let date= new Date(log[i].createdAt.getUTCFullYear(), log[i].createdAt.getUTCMonth(), log[i].createdAt.getUTCDate());
-            date = format(date, 'dd-MM-yyyy');
-            log[i].createdAt = date;
-        }
+      
         return res.status(201).send({log});
     } catch (error) {
         console.error(error);
